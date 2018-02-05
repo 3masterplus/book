@@ -1,0 +1,1261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PHP核心知识纲要</title>
+<script src="jquery-1.7.1.js"></script>
+<script>
+	$(function(){
+		$("ul").hide();
+		$("body>ul").show();
+
+		$("li").each(function(){
+			if($(this)[0].childNodes.length > 1 && $("ul",this).size() > 0)
+			{
+				$($(this)[0].childNodes[0]).wrap("<a href='#'></a>");
+
+			}
+		});
+		$("li > a").click(function(){
+			$(this).next().toggle();
+			$(this).css({"text-decoration":"underline"});
+			return false;
+		});
+		$("ul:first").dblclick(function(){
+			$("ul").show();
+		});
+		
+		//$("li>ul").toggle();
+		//$("li>ul:first").toggle();
+
+	});
+</script>
+</head>
+
+<body>
+<ul>
+  <li>php介绍 
+    <ul>
+      <li>缩写：Personal Home Page  ==&gt;&gt;PHP：HypeText  Preprocessor </li>
+      <li>历史
+        <ul>
+          <li>1995PHP/FI，Rasmus Lorderf，Personal Home Page </li>
+          <li>1997PHP/FI2.0，1998PHP3，2000PHP4，2005PHP5 </li>
+        </ul>
+      </li>
+      <li>应用范围：
+        <ul>
+          <li>web服务器端脚本 </li>
+          <li>命令行脚本</li>
+          <li>应用程序图形界面 </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>php运行环境
+    <ul>
+      <li>BS软件模式
+        <ul>
+          <li>浏览器软件若干 </li>
+          <li>web服务器软件若干 </li>
+          <li>后台程序语言若干 </li>
+          <li>web运行流程：
+            <ul>
+              <li>浏览器输入地址，回车（发送请求） </li>
+              <li>根据规则找到对应web服务器。规则如下：
+                <ul>
+                  <li>首先在本机hosts文件中找对应IP </li>
+                  <li>如果hosts中没有找到，则到互联网上找对应IP </li>
+                  <li>如果还是没有找到，则终止请求，返回“找不到服务器”提示 </li>
+                </ul>
+              </li>
+              <li>web服务器取得对应文件 </li>
+              <li>如有需要，对该文件进行一定的处理（比如php代码执行） </li>
+              <li>将文件（或执行结果文件）返回给浏览器（返回应答） </li>
+              <li>浏览器接收到文件 </li>
+              <li>浏览器处理文件（显示/执行） </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>PHP的命令行运行模式：
+        <ul>
+          <li>运行php文件：php.exe -f &quot;php文件路径&quot;</li>
+          <li>运行php代码：php.exe -r &quot;php脚本代码&quot;</li>
+        </ul>
+      </li>
+      <li>web服务器运行模式
+        <ul>
+          <li>安装apache软件
+            <ul>
+              <li>测试apache </li>
+            </ul>
+          </li>
+          <li>将php配置为apache模块：loadModule php5_module &quot;php5apache2_2.dll路径&quot;</li>
+          <li>告知apache何时调用php模块
+            <ul>
+              <li>方式1：FilesMatch〉setHandler &quot;application/x-httpd-php&quot;</li>
+              <li>方式2：addType application/x-httpd-php .php .php3</li>
+              <li>测试php运行: </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>配置php
+        <ul>
+          <li>使用phpinfo()测试。</li>
+          <li>确定php的配置文件
+            <ul>
+              <li>PHPIniDir 设定php.in文件位置 </li>
+            </ul>
+          </li>
+          <li>修改php配置
+            <ul>
+              <li>设置时区：timezone=PRC </li>
+              <li>设置扩展库目录：extension_dir </li>
+              <li>打开扩展库：mysql, mysqli </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>安装mysql数据库
+    <ul>
+      <li>安装过程： </li>
+      <li>相关配置过程：
+        <ul>
+          <li>设置环境变量以方便登录 </li>
+          <li>对php.ini，可以打开对应扩展mysql </li>
+        </ul>
+      </li>
+      <li>操作mysql数据库的基本流程
+        <ul>
+          <li>客户端连接mysql服务器 </li>
+          <li>客户端发送命令（操作语句） </li>
+          <li>服务器执行语句 </li>
+          <li>服务器返回执行结果 </li>
+          <li>客户端展示执行结果 </li>
+          <li>断开连接（退出登录） </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>虚拟主机基本配置
+    <ul>
+      <li>端口监听设置 </li>
+      <li>主机配置的关键项
+        <ul>
+          <li>主机名： </li>
+          <li>主机目录： </li>
+        </ul>
+      </li>
+      <li>目录的访问设置
+        <ul>
+          <li>Options</li>
+          <li>Order</li>
+          <li>Allow和Deny</li>
+          <li>AllowOverride</li>
+          <li>.htaccess文件 </li>
+        </ul>
+      </li>
+      <li>其他相关设置
+        <ul>
+          <li>默认页设置DirectoryIndex </li>
+          <li>主机别名设置ServerAlias </li>
+          <li>目录别名设置Alias </li>
+        </ul>
+      </li>
+      <li>多域名虚拟主机配置：
+        <ul>
+          <li>打开主配置文件中的httpd-vhosts.conf开关 </li>
+          <li>编辑多域名配置文件httpd-vhosts.conf</li>
+          <li>设定要进行多域名配置的IP及端口：NameVirtualHost *:80</li>
+          <li>一个一个主机进行配置：
+            <ul>
+              <li>设定主机域名：ServerName</li>
+              <li>设定主机目录：DocumentRoot</li>
+              <li>设定目录访问：Directory权限设定 </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>PHP运行基本环境配置与设定
+    <ul>
+      <li>确定配置文件所在位置：用phpinfo.php查看 </li>
+      <li>修改php的时区设定 </li>
+      <li>设定php的标记形式：
+        <ul>
+          <li>典型（标准）标记形式 </li>
+          <li>脚本形式&lt;script language=&quot;php&quot;&gt;</li>
+          <li>短标记形式：short_open_tag </li>
+          <li>结束标记有时可以省略</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>php基本语法形式：
+    <ul>
+      <li>区分大小写
+        <ul>
+          <li>是指变量名区分大小写</li>
+          <li>但函数名不区分</li>
+          <li>而系统中使用的关键字也不区分大小写，比如if， else， for</li>
+        </ul>
+      </li>
+      <li>一条语句使用一个分号结束
+        <ul>
+          <li>最后一个分号可省略 </li>
+          <li>php结束标记省略则不能省略最后一个分号 </li>
+        </ul>
+      </li>
+      <li>php注释形式
+        <ul>
+          <li>单行注释
+            <ul>
+              <li>//常规风格（推荐） </li>
+              <li>#配置文件风格 </li>
+            </ul>
+          </li>
+          <li>多行注释
+            <ul>
+              <li>多行注释技巧1：/*.... //*/ </li>
+              <li>多行注释技巧2：if语句 </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>变量：
+    <ul>
+      <li>含义：包含名称和值一个标识符
+        <ul>
+          <li>名称和值的关系可以称为“引用” （指向）</li>
+          <li>使用一个变量名其实是指使用该变量所“引用”（指向）的值</li>
+        </ul>
+      </li>
+      <li>形式：变量必须以$开头，后面紧跟变量名 </li>
+      <li>基本操作：
+        <ul>
+          <li>定义变量（赋值）： </li>
+          <li>取值： </li>
+          <li>判断变量是否存在isset() </li>
+          <li>修改变量值（赋值）： </li>
+          <li>删除unset()：就是断开变量名跟数据之间的“引用关系” </li>
+        </ul>
+      </li>
+      <li>变量命名基本规则
+        <ul>
+          <li>以字母或下划线开头</li>
+          <li>后跟任意数量（含０个）的字母，数字和下划线 </li>
+        </ul>
+      </li>
+      <li>命名推荐规则（行业规则）：
+        <ul>
+          <li>骆驼命名法： </li>
+          <li>帕斯卡命名法： </li>
+          <li>下划线间隔法： </li>
+        </ul>
+      </li>
+      <li>变量间传值方式：
+        <ul>
+          <li>赋值传值（值传递）：在php中，变量之间默认都是“值传递”，即将一个变量的“内容”复制一份再赋值给另一个变量。</li>
+          <li>引用传值（引用传递）：可以使用“&amp;”运算符来强制引用传值，语法形式为：$v1 = &amp;$v2;
+            <ul>
+              <li>例：$v1 = 10; $v2 = &amp;$v1;</li>
+              <li>$v2 = 20;</li>
+              <li>则：echo $v1;//结果是20，这就是引用。</li>
+            </ul>
+          </li>
+          <li>注意事项：对象和资源在某些语句中有时会被“误认为”是引用传值，其实不是的。例如：
+            <ul>
+              <li>$obj1 = new c1(); $obj1.age = 10; $obj2 = $obj1; </li>
+              <li>$obj2.age = 20;</li>
+              <li>echo $obj1.age;//结果是20，也改变了：这就好像是引用传值一样。但其实不是，因为变量中存储的并不是对象本身，而是对象的一个“标识符”，该标识符才指向（引用）对象本身。即“new”的时候，创建了一个对象的同时，也生成了一个标识符，该标识符指向了该对象，同时将该标识符赋值给了变量$obj1。赋值的时候，是“复制”了该标识符，然后再赋值给了另一个变量。</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>可变变量： </li>
+      <li>预定义变量（超全局变量/数组）：
+        <ul>
+          <li>综述：
+            <ul>
+              <li>主要有：$_GET, $_POST, $_REQUEST, $_SERVER, $GLOBALS</li>
+              <li>均是数组</li>
+              <li>系统定义与维护</li>
+              <li>具有超全局作用域</li>
+              <li>不同情形下可能具有不同的值</li>
+            </ul>
+          </li>
+          <li>$_GET：get请求（发送数据）的4种形式
+            <ul>
+              <li>&lt;form   method=”get” &gt;</li>
+              <li>&lt;a   href=”abc.php?a=5&amp;b=xyz”&gt;内容&lt;/a&gt; </li>
+              <li>location.href=”abc.php?a=5&amp;b=xyz” ;</li>
+              <li>location.assign(“abc.php?a=5&amp;b=xyz”);</li>
+            </ul>
+          </li>
+          <li>$_POST
+            <ul>
+              <li>基本形式：&lt;form   method=”post” &gt;</li>
+            </ul>
+          </li>
+          <ul>
+            <li>注意特殊的表单项的写法：多选通常要使用数组形式命名 </li>
+            <li>另外，post方式时在action中还可以带参数，且作为get方式 </li>
+              </ul>
+          <li>$_REQUEST
+                <ul>
+                  <li>实际是$_GET和$_POST的合集 </li>
+                  <li>如果两者有重名项，默认是$_POST项覆盖$_GET项 </li>
+                  <li>可以在php.ini配置文件中设定先后顺序，后者覆盖前者：request_order=GP </li>
+                  <li>$_GET, $_POST, $_REQUEST三种数据是相互独立的。 </li>
+                </ul>
+          </li>
+          <li>$_SERVER：保存了服务器或客户端的有关信息。
+            <ul>
+              <li>常用的有：REMOTE_ADDR, DOCUMENT_ROOT,  PHP_SELF </li>
+              <li>输出所有项（可能每台服务器有所差异） </li>
+            </ul>
+          </li>
+          <li>$GLOBALS：保存了用户定义的所有全局变量的数据 </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>常量：
+    <ul>
+      <li>含义： </li>
+      <li>定义形式：
+        <ul>
+          <li>使用define()函数定义
+            <ul>
+              <li>推荐常用名使用全大写形式</li>
+            </ul>
+          </li>
+          <li>使用const语法定义
+            <ul>
+              <li>但const语法只能在“最顶层”的代码域中使用</li>
+              <li>也即，const语法不能在函数中或条件语句中或其他表示一个“范围”的语句中使用</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>使用（取值）：
+        <ul>
+          <li>直接使用名字 </li>
+          <li>或使用constant()函数</li>
+        </ul>
+      </li>
+      <li>常量和变量的区别
+        <ul>
+          <li>定义形式不同： </li>
+          <li>使用形式不同：常量无需$符号 </li>
+          <li>可变程度不同：常量的值不可以改变，常量也不可以销毁 </li>
+          <li>作用范围不同：常量具有超全局作用域 （函数内外都可以直接使用）</li>
+          <li>可用类型不同：常量只能存储标量类型 </li>
+        </ul>
+      </li>
+      <li>判断常量是否存在：defined() </li>
+      <li>使用一个未定义的常量（特殊情况）： </li>
+      <li>预定义常量：
+        <ul>
+          <li>比如M_PI, PHP_OS, PHP_VERSION，PHP_INT_MAX </li>
+          <li>参考手册〉保留字列表〉预定义常量 </li>
+        </ul>
+      </li>
+      <li>魔术常量
+        <ul>
+          <li>比如：__DIR__，__FILE__，__LINE__ </li>
+          <li>魔术常量其实类似变量，其值随着不同代码而变化，不区分大小写</li>
+          <li>参考手册〉语言参考〉常量〉魔术常量 </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>数据类型：
+    <ul>
+      <li>类型总体划分：
+        <ul>
+          <li>标量类型： int， float， string， bool</li>
+          <li>复合类型： array， object</li>
+          <li>特殊类型： null， resouce</li>
+        </ul>
+      </li>
+      <li>整数类型：int， integer
+        <ul>
+          <li>整数的3种进制写法：
+            <ul>
+              <li>十进制写法：123</li>
+              <li>八进制写法： 0123</li>
+              <li>十六进制写法： 0x123</li>
+            </ul>
+          </li>
+          <li>进制转换问题
+            <ul>
+              <li>十进制转二进制decbin()，除2取余倒着写 </li>
+              <li>十进制转八进制decoct()，除8取余倒着写 </li>
+              <li>十进制转十六进制dechex()，除16取余倒着写 </li>
+              <li>二进制转十进制bindec()，每位数值乘以2的权值然后相加 </li>
+              <li>八进制转十进制octdec() ，每位数值乘以8的权值然后相加 </li>
+              <li>十六进制转十进制hexdec() ，每位数值乘以16的权值然后相加 </li>
+              <li>注意：十进制转为其他进制结果是字符串，其他进制转为十进制要求给定数据是字符串形式</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>浮点数类型：float，double
+        ，real
+        <ul>
+          <li>浮点数的2种写法：
+            <ul>
+              <li>小数写法：</li>
+              <li>科学计数法：</li>
+            </ul>
+          </li>
+          <li>关于浮点数的细节知识
+            <ul>
+              <li>浮点数不应进行大小比较</li>
+              <li>小数转二进制的做法：乘2并顺序取整数部分 </li>
+              <li>当整数运算的结果超出整数的范围后，会自动转换为浮点数。</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>字符串类型：string
+        <ul>
+          <li>单引号字符串： </li>
+          <li>双引号字符串： </li>
+          <li>定界符字符串heredoc： </li>
+          <li>定界符字符串nowdoc： </li>
+          <li>字符串中的变量：双引号和heredoc形式中可以识别 </li>
+        </ul>
+      </li>
+      <li>布尔类型：bool， boolean
+        <ul>
+          <li>被当作false的数据 ：null, &quot;&quot;, 0, 0.0, &quot;0&quot;, array(), 未定义</li>
+          <li>其他的都会当作true</li>
+        </ul>
+      </li>
+      <li>数组类型： array
+        <ul>
+          <li>定义： </li>
+          <li>赋值： </li>
+          <li>取值： </li>
+          <li>下标，键，key </li>
+          <li>值，value </li>
+          <li>元素顺序问题 </li>
+        </ul>
+      </li>
+      <li>对象类型： object
+        <ul>
+          <li>定义类： </li>
+          <li>创建对象： </li>
+          <li>对象属性操作：</li>
+          <li>对象方法操作： </li>
+        </ul>
+      </li>
+      <li>资源类型：resource
+        <ul>
+          <li>含义：基本上都是指对外部数据的引用。<br />
+          不是PHP语言通过某种语法形式“创造”的数据，而是外部本来就有该数据（比如数据库，文件，图片），PHP只是通过某种语法（或方式）来对其进行某些操作。 </li>
+        </ul>
+      </li>
+      <li>空类型：null </li>
+      <li>类型转换问题：
+        <ul>
+          <li>自动转换：
+            根据数据所使用的具体环境而可能会发生自动转换，
+            常见的自动转换情形如：
+            <ul>
+              <li>if(数据){}：转为bool类型 </li>
+              <li>算术运算符：转为数字类型 </li>
+              <li>连接运算符：转为字符串类型 </li>
+              <li>比较运算符：转为布尔类型或数字类型 </li>
+            </ul>
+          </li>
+          <li>强制转换：
+            <ul>
+              <li>语法：(目标类型)数据 </li>
+              <li>常见：(int), (float), (string),  (bool) </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>类型相关的系统函数：
+        <ul>
+          <li>var_dump()</li>
+          <li>getType(), setType();</li>
+          <li>isset(), empty(), unset();</li>
+          <li>is_XX类型() 系列函数：</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>运算符
+    <ul>
+      <li>算术运算符：
+        <ul>
+          <li>一般 </li>
+          <li>注意取余运算%，先取整，再取余 </li>
+          <li>自增自减运算符
+            <ul>
+              <li>常规：对数字进行自加1或自减1。 </li>
+              <li>字符串： 只能自增，且自增的效果就是“下一个字符” </li>
+              <li>布尔值递增递减无效 </li>
+              <li>null递减无效，递增结果为1 </li>
+            </ul>
+          </li>
+          <li>前自增和后自增的区别（自减类似）：
+            <ul>
+              <li>前++：先完成变量的递增运算，再取得该变量的值参与别的运算。 </li>
+              <li>后++：先将原来变量的值临时存储，再将变量值递增，最后再将临时存储的值参与别的运算。 </li>
+              <li>推论1：如果独立语句中进行自加运算，前自加后自加没有区别 。</li>
+              <li>推论2：如果前自加后自加是放在别的语句中，则会有所区别。 </li>
+              <li>推论3： 前加加比后加加效率略高（在循环中建议使用前加加）。</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>比较运算符：
+        <ul>
+          <li>一般比较： </li>
+          <li>==和===比较 </li>
+          <li>不要对浮点数直接进行大小比较 </li>
+          <li>常见不同类型的比较
+            <ul>
+              <li>有布尔值，转为布尔值比较 </li>
+              <li>有数字转为数字比较 </li>
+              <li>两边都是纯数字字符串，转为数字比较 </li>
+              <li>否则就按字符串比较 </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>逻辑运算符：
+        <ul>
+          <li>短路现象
+            <ul>
+              <li>逻辑与短路： </li>
+              <li>逻辑或短路： </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>字符串运算符： </li>
+      <li>赋值运算符：
+        <ul>
+          <li>标准赋值 </li>
+          <li>自赋值 </li>
+        </ul>
+      </li>
+      <li>条件（三目）运算符： </li>
+      <li>位运算符：
+        <ul>
+          <li>位运算符基本规则：
+            <ul>
+              <li>&amp; ： 两个都是1，结果才是1（有一个是0，结果就是0）</li>
+              <li>| ： 两个都是0，结果才是0（有一个是1，结果就是1）</li>
+              <li>~ ： 取二进制数字的相反值，即：~1的结果是0，~0的结果是1。</li>
+            </ul>
+          </li>
+          <li>按位与运算（&amp;)： </li>
+          <li>按位或运算（|）： </li>
+          <li>按位非运算（~）： </li>
+          <li>按位左移运算（&lt;&lt;）： </li>
+          <li>按位右移运算（&gt;&gt;）： </li>
+          <li>按位异或运算（^）： </li>
+          <li>补充介绍：原码，反码，补码
+            <ul>
+              <li>原码：一个数字的原始二进制形式，人可理解 </li>
+              <li>反码：正数的反码是其本身（即不变），负数的反码：符号位不变，各位取反</li>
+              <li>补码：正数的补码是其本身（即不变），负数的补码：符号位不变，各位取反后加1（即反码加1）</li>
+              <li>补码还原：正数无需还原，负数：符号位不变，各位取反加1</li>
+              <li>计算机cpu中的运算，只有加法运算，没有减法运算 </li>
+              <li>用补码来表示一个数，就可以将减法转换为加法：15-13相当于15+(-13) </li>
+              <li>举例计算：5+3， 5-3 </li>
+            </ul>
+          </li>
+          <li> 应用：管理一组对象（事物）的开关状态
+            <ul>
+              <li>有些事物（数据）只有2个状态（值），此时可以称为“开关状态”，比如灯的亮灭状态，商品是否推荐状态</li>
+              <li>用二进制原理可以方便轻松管理多个该类事物的状态：</li>
+              <li>每个事物的状态用一个变量值来表示：$S1=1，$S2=2，$S3=4，$S4=8，$S5=16，...</li>
+              <li>则所有灯的总状态变量：$state = &quot;11111&quot;(2进制)就表示他们都是“开”的。$state = &quot;10110&quot;(2进制)就表示第一第四盏灯是关的，其余是开的。</li>
+              <li>判断某盏灯的状态（亮或灭）：如果($state &amp; $Sn)&gt;0，则表示亮，否则表示灭（其中$Sn代表某盏灯，即$S1,$S2,$S3,$S4,$S5之一，下同）。</li>
+              <li>对于任意的初始状态，想要打开某盏灯：$state = $state | $Sn。</li>
+              <li>对于任意的初始状态，想要关闭某盏灯：$state = $state &amp; ~$Sn。</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>数组运算符：+  ==    !=   &lt;&gt;    ===     !== 
+        <ul>
+          <li>联合（+）：将右边的数组项合并到左边数组的后面，得到一个新数组。如有重复键，则结果以左边的为准</li>
+          <li>相等（==）： 如果两个数组具有相同的键名和键值（可以顺序不同，或类型不同），则返回true</li>
+          <li>不相等（!=, &lt;&gt;） ：如果两个数组不是相等（==），则返回true</li>
+          <li>全等（===）：如果两个数组具有相同的键名和键值且顺序和类型都一样，则返回true</li>
+          <li>不全等（!==) ： 如果两个数组不是全等（===），则返回true</li>
+        </ul>
+      </li>
+      <li>错误控制运算符@：用于一个表达式的前面，以抑制该表达式可能产生的报错信息。</li>
+      <li>运算符的优先级问题
+        <ul>
+          <li>要意识到运算符有优先级问题</li>
+          <li>括号最优先，赋值最落后（通常）</li>
+          <li>先乘除后加减</li>
+          <li>大致：算术运算符〉比较运算符〉逻辑运算符（除了“非”运算）</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>流程控制：
+    <ul>
+      <li>流程图基本符号：开始结束，语句（块），判断，输入输出，走向 </li>
+      <li>分支结构
+        <ul>
+          <li>if</li>
+          <li>if else</li>
+          <li>if else if（推荐）</li>
+          <li>if elseif</li>
+          <li>if else if else</li>
+          <li>switch
+                  <ul>
+                    <li>break的作用 </li>
+                    <li>不使用break的技巧</li>
+                  </ul>
+          </li>
+        </ul>
+      </li>
+      <li>循环结构：
+        <ul>
+          <li>while</li>
+          <li>do while</li>
+          <li>for</li>
+          <li>foreach（用于数组遍历循环） </li>
+          <li>循环的中断
+            <ul>
+              <li>break</li>
+              <li>continue</li>
+              <li>中断层级 </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>部分流程控制的替换语法：
+        <ul>
+          <li>if ( ... ) :    。。。。  endif; </li>
+          <li>if ( ... ) :   。。。else: 。。。 endif; </li>
+          <li>if ( ... ): 。。。elseif( ... ) : 。。。 elseif( ... ): 。。。 else: 。。。 endif; </li>
+          <li>switch( ... ) : case ... case ... endSwitch;</li>
+          <li>while(...): 。。。endwhile;</li>
+          <li>for(...; ...; ...): :。。。 endfor;</li>
+        </ul>
+      </li>
+      <li>
+        goto语句： 
+		<ul>
+          <li>基本形式： goto Flag; ... Flag: .....</li>
+          <li>注意事项： 
+            <ul>
+              <li>不能跳入循环中</li>
+              <li>不能跳入函数中</li>
+              <li>不能跳出函数外</li>
+              <li>不能跳出文件外</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>控制脚本执行进度
+        <ul>
+          <li>die() / exit();</li>
+          <li>sleep()</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>文件加载
+    <ul>
+      <li>综述和基本语法：include, require, include_once,  require_once：</li>
+      <li>文件路径问题
+        <ul>
+          <li>相对路径： ./    ../</li>
+          <li>绝对路径： c:/abc/def/ 或：http://www.abc.com</li>
+          <li>无路径设定（只给出文件名，不推荐）
+            <ul>
+              <li>先在include_path设定的目录中找</li>
+              <li>没找到，则在网页文件所在目录下找(当前工作目录）</li>
+              <li>没找到，则在当前include命令所在文件的目录下找</li>
+            </ul>
+          </li>
+          <li>include_path设置，set_include_path(), get_include_path()</li>
+        </ul>
+      </li>
+      <li>文件载入和执行过程：
+        <ul>
+          <li>从include语句处退出php脚本模式（进入html代码模式）</li>
+          <li>载入include语句所设定的文件中的代码，并执行之（如同在当前文件中一样）</li>
+          <li>退出html模式重新进入php脚本模式，继续之后的代码</li>
+        </ul>
+      </li>
+      <li>include_once 和include的区别</li>
+      <li>require 和 include的区别：引用失败（出错）时，include警告并继续，require终止。</li>
+      <li>require 和 require_once的区别</li>
+      <li>在被载入文件中 return 关键字的作用
+        <ul>
+          <li>默认情况下include载入成功返回1，载入失败返回false</li>
+          <li>但被包含的文件中可以使用return语句返回数据值并终止该文件的后续部分的执行</li>
+          <li>return返回的数据如同函数返回值一样可以进一步处理（比如赋值给其他变量）</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>错误处理：
+    <ul>
+      <li>错误的分类：
+        <ul>
+            <li>语法错误：程序没法运行，直接提示语法错误</li>
+          <li>运行时错误：只有程序运行到某行，或在某些特定的情形下运行才会发生的错误。</li>
+          <li>逻辑错误：程序从头到尾运行都没有发生（并提示）错误，但程序运行计算的结果是错误的。</li>
+        </ul>
+      </li>
+      <li>错误分级与代号： 不同的错误会导致不同程度的程序运行反应，这就是错误的分级。
+        错误代号其实只是一个系统内部常量。也就是说，这些错误代号是一个系统预先定义好的数据，然后系统根据发生的不同错误情形，而分配不同的值供程序员使用来判断错误类型。
+        <ul>
+            <li>系统错误：E_ERROR, E_WARNING, E_NOTICE</li>
+          <li>用户错误：E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE</li>
+          <li>所有错误： E_ALL | E_STRICT</li>
+          <li>PHP手册〉函数参考〉影响PHP行为的扩展〉错误处理〉预定义常量</li>
+        </ul>
+      </li>
+      <li>错误的触发：
+        <ul>
+            <li>程序运行时触发。</li>
+          <li>程序中通过触发函数来人为触发3种用户错误
+            <ul>
+                  <li>trigger_error(&quot;错误提示文字&quot;, 错误类型T）</li>
+              <li>错误类型T：E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE之一</li>
+            </ul>
+          </li>
+          <li>其中，系统关键错误(E_ERROR)或用户关键错误(E_USER_ERROR)一旦发生，则程序停止执行。</li>
+        </ul>
+      </li>
+      <li>显示错误报告：
+        <ul>
+            <li>display_errors = On || Off ，或 ini_set(&quot;display_errors&quot;, 0或1);</li>
+          <li>error_reporting = E_ALL，或ini_set('error_reporting', E_ALL);</li>
+        </ul>
+      </li>
+      <li>记录错误日志：
+        <ul>
+            <li>log_errors = On||Off， 或ini_set('log_errors', 1或0);</li>
+          <li>error_log = &quot;错误日志文件名&quot;， 或ini_set('error_log', &quot;错误日志文件名&quot;);</li>
+          <li>error_log = &quot;syslog&quot;则会将错误信息记录到系统日志去。</li>
+        </ul>
+      </li>
+      <li>自定义错误处理器：
+        <ul>
+            <li>设定错误由我们自定义函数来处理：set_error_handler(&quot;函数名&quot;);</li>
+          <li>定义该函数，带4个参数：function errorHandler($errNo, $errMsg, $errFile, $errLine){...}</li>
+          <li>这样，发生错误之后，就会调用该函数来处理该错误</li>
+          <li>但如果发生系统关键错误（E_ERROR），则不会去调用自定义错误处理函数，而是会直接停止运行，并按php.ini的设定显示或记录错误信息。</li>
+          <li>除了系统关键错误，其他错误发生后则不会再去显示或记录错误了，而是按照自定义错误处理函数中的代码执行。</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>函数
+    <ul>
+      <li>基本使用
+        <ul>
+          <li>函数定义形式</li>
+          <li>函数调用形式</li>
+          <li>函数调用流程分析
+            <ul>
+              <li>开始调用：实际参数传数据给形式参数</li>
+              <li>程序执行流程进入到函数中（一个独立的运行空间），跟全局执行空间是隔离的</li>
+              <li>按常规的程序逻辑执行函数中的代码</li>
+              <li>如果碰到return语句，则终止函数的执行，跳回函数开始调用的位置；</li>
+              <li>如果执行到函数的最后位置，也同样跳回函数开始调用的位置</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>函数参数
+        <ul>
+          <li>形式参数，形参，parameter</li>
+          <li>实际参数，实参，arguement</li>
+          <li>参数的默认值
+            <ul>
+                <li>形式：形式参数上给其赋值（就是默认值）</li>
+              <li>要求：
+                <ul>
+                      <li>默认值不能是对象或资源类型；</li>
+                  <li>默认值只能是常量表达式，或常量，不能是变量</li>
+                  <li>默认值参数必须放在非默认值参数的右边</li>
+                  <li>调用函数的时候，对应有默认值的参数可以给值，也可以不给值
+                    <ul>
+                            <li>如果给值，则该对应形式参数使用给定的值</li>
+                      <li>如果不给值，则该对应形式参数使用默认</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>参数传值问题
+            <ul>
+              <li>默认情况下，参数传值采用的是“值传递”的方式进行传值。</li>
+              <li>可以在形式参数的前面使用“＆”符号，来达到“引用传递”的传值方式。</li>
+              <li>注意1：如果是引用传值，则实参只能是一个“变量”——也即变量跟变量之间才有引用传值方式问题。</li>
+              <li>注意2：引用传值的形参变量，在函数内部改变该形参变量的值，则对应实参变量的值也就改变。</li>
+            </ul>
+          </li>
+          <li>参数的数量问题
+            <ul>
+              <li>常规：实际参数数量跟形式参数一致；</li>
+              <li>实际参数数量多于形式参数，不报错（很多其他语言是报错的）；</li>
+              <li>实际参数数量少于形式参数，则分为：
+                <ul>
+                  <li>实际参数数量少于形式参数的非默认参数数量，则报错</li>
+                  <li>实际参数数量不少于形式参数的非默认参数数量，则不报错，不够部分，使用默认参数值</li>
+                </ul>
+              </li>
+              <li>不定参数数量的情形：
+                <ul>
+                  <li>类似：var_dump()可以传递不定个数的参数，如何做实现？</li>
+                  <li>定义的时候不定义形式参数</li>
+                  <li>在函数内部，使用func_get_args()获取所有传递过来的实际参数值，结果是一个数组</li>
+                  <li>在函数内部，使用func_get_arg(n)获得第n个参数（n从0开始）</li>
+                  <li>在函数内部，使用func_num_args()获得所有实际参数的个数</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>函数的返回值
+        <ul>
+          <li>在函数中，使用return语句后面跟一个数据（直接数据或变量数据或常量数据），就可以返回该数据（值）。</li>
+          <li>通常情况下，函数返回的数据都是以“值传递”的形式返回。</li>
+          <li>我们还可以使用强制引用返回(&amp;)的形式来定义一个函数的返回值的返回方式，做法：
+            <ul>
+              <li>定义函数使用&amp;符号：function <strong>&amp;</strong>f1(){....}</li>
+              <li>调用函数使用&amp;符号：$v1 = <strong>&amp;</strong>f1();</li>
+              <li>要求：return语句返回的值必须是变量值（即变量）。</li>
+              <li>举例：函数中的一个静态变量的值，使用引用返回，则外部也可以修改其值。</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>函数的其他形式
+        <ul>
+            <li>可变函数：一个变量名后面带括号，则会被识别为可变函数：找到与该变量的值同名的函数并执行之。</li>
+          <li>匿名函数：没有名字的一个函数，可将其赋值给一个变量，然后该变量后面加括号就可以调用该函数
+            <ul>
+              <li>$f1 = function($p1, $p2) { ........ }</li>
+              <li>call_user_func_array($f1, array(1, 2));</li>
+            </ul>
+          </li>
+          <li>或纯粹是一个没有名字的函数，且直接当作其他函数的参数（即改函数的参数是一个函数）。</li>
+          <ul>
+            <li>call_user_func_array( <strong>function($p1, $p2) { ........ }</strong> , array(1, 2) )</li>
+            <li>这种当作其他函数参数的函数，通常称为“callable”（可调函数），或“callback”（回调函数）。</li>
+          </ul>
+        </ul>
+      </li>
+      <li>变量作用域
+        <ul>
+          <li>局部作用域（局部变量）
+            <ul>
+              <li>静态局部变量：静态变量只能赋值为一个直接的标量值，不能是计算值，或另一个变量值。</li>
+            </ul>
+          </li>
+          <li>全局作用域（全局变量）</li>
+          <li>超全局作用域（超全局变量）</li>
+          <li>局部访问全局变量
+            <ul>
+              <li>使用$GLOBALS超全局数组</li>
+              <li>global关键字：本质是设定一个局部变量来引用某个全局变量，删掉该局部变量，全局变量仍然存在</li>
+              <li>$GLOBALS数组中的元素跟全局变量是一一对应关系。删掉（unset）一个，另一个也就没有了</li>
+              <li>使用$GLOBALS数组的一个新元素，则可以“创造”全局变量，如：$GLOBALS['vvv'] = 1; #假设之前没有$vvv这个全局变量，则这一行之后就有了。</li>
+            </ul>
+          </li>
+          <li>全局访问局部
+            <ul>
+              <li>通过引用传递的方式向形参传递一个引用实参变量</li>
+              <li>使用函数的引用返回形式</li>
+              <li>函数中使用global关键字来首次引用一个全局变量，则函数结束后在全局范围就可以使用该变量了</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>有关函数的系统函数
+        <ul>
+          <li>function_exists()</li>
+          <li>func_get_arg()</li>
+          <li>func_get_args()</li>
+          <li>func_num_args()</li>
+        </ul>
+      </li>
+      <li>函数相关编程思想
+        <ul>
+          <li>递归思想</li>
+          <li>递推思想（迭代思想）</li>
+        </ul>
+      </li>
+      <li>常用内部函数：
+        <ul>
+          <li>字符串函数：
+            <ul>
+              <li>输出与格式化：echo , print, printf, print_r, var_dump.</li>
+              <li>字符串去除与填充：trim, ltrim, rtrim, str_pad</li>
+              <li>字符串连接与分割：implode, join， explode, str_split</li>
+              <li>字符串截取：substr, strchr, strrchr, </li>
+              <li>字符串替换：str_replace, substr_replace</li>
+              <li>字符串长度与位置： strlen, strpos, strrpos, </li>
+              <li>字符转换：strtolower, strtoupper, lcfirst, ucfirst, ucwords</li>
+              <li>特殊字符处理：nl2br, addslashes, htmlspecialchars, htmlspecialchars_decode,</li>
+            </ul>
+          </li>
+          <li>时间函数：
+            <ul>
+              <li>time, microtime, mktime, date, idate, strtotime, date_add, date_diff, date_default_timezone_set, date_default_timezone_get</li>
+            </ul>
+          </li>
+          <li>数学函数：
+            <ul>
+              <li>max, min, round, ceil, floor, abs, sqrt, pow, round, rand</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>数组
+    <ul>
+      <li>数组基础
+        <ul>
+          <li>定义（多种形式）</li>
+          <li>取值</li>
+          <li>赋值（多种形式）</li>
+        </ul>
+      </li>
+      <li>数组分类
+        <ul>
+          <li>从键值关系来分
+            <ul>
+              <li>关联数组</li>
+              <li>索引数组</li>
+            </ul>
+          </li>
+          <li>从数组层次来分
+            <ul>
+              <li>一维数组</li>
+              <li>多维数组</li>
+              <li>混合数组</li>
+              <li>“维”的本质</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>数组遍历
+        <ul>
+          <li>foreach基本语法</li>
+          <li>数组指针操作与遍历原理</li>
+          <li>foreach遍历流程图</li>
+          <li>for+next遍历数组</li>
+          <li>while+each()+list()遍历数组</li>
+          <li>foreach遍历的细节探讨：
+            <ul>
+              <li>foreach也是正常的循环语法结构，可以有break和continue等操作。</li>
+              <li>遍历过程中值变量默认的传值方式是值传递。</li>
+              <li>遍历过程中值变量可以人为设定为引用传递：foreach($arr as $key =&gt; &amp;$value){ ... }</li>
+              <li>foreach默认是原数组上进行遍历。但如果在遍历过程中对数组进行了某种修改或某种指针性操作，则会复制数组后在复制的数组上继续遍历循环。</li>
+              <li>foreach中如果值变量是引用传递，则无论如何都是在原数组上进行。</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>数组函数
+        <ul>
+          <li>指针操作函数： current, key, next, prev, reset, end, each</li>
+          <li>单元操作函数： array_pop，array_push, array_shift, array_unshift, array_slice, array_splice</li>
+          <li>排序函数： sort， asort， ksort， usort, rsort, arsort , krsort , shuffle, </li>
+          <li>查找函数： in_array, array_key_exists, array_search</li>
+          <li>其他函数： count, array_reverse, array_merge, array_sum, array_keys, array_values,array_map, array_walk, range</li>
+        </ul>
+      </li>
+      <li>数组排序算法
+        <ul>
+          <li>冒泡排序</li>
+          <li>选择排序</li>
+          <li>插入排序</li>
+          <li>快速排序</li>
+        </ul>
+      </li>
+      <li>数组查找算法
+        <ul>
+          <li>顺序查找</li>
+          <li>二分查找</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>面向对象编程
+    <ul>
+      <li>面向对象编程思想介绍：
+        <ul>
+            <li>传统的面向过程的编程思想：
+              <ul>
+                  <li>将要实现的功能描述为一个从开始到结束的连续的“步骤（过程）”。</li>
+                <li>依次逐步完成这些步骤。如果步骤较大，又可以将该步骤再次细分为子步骤，以此类推。</li>
+                <li>程序从头开始执行一直到结尾并得到所需结果。</li>
+                <li>例子：完成来传智“报名学习”这件事，可以分为以下几步：
+                  <ul>
+                        <li>学生： 提出要报名，并提供姓名和照片</li>
+                    <li>咨询老师： 接收照片并登记学生姓名</li>
+                    <li>学生：缴费（付款到学校账号）并获得缴费凭证</li>
+                    <li>咨询老师：验证凭证并分配班级</li>
+                    <li>结果：报名完成，学生可以在规定的时间到规定的班级（教室）上课，数据库中就有了该学生的信息。</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          <li>现代的面向对象的编程思想：
+            <ul>
+                  <li>将要实现的功能描述为一个“对象/物体”完成的任务——现实中也是如此：功能的实现都是依赖于一个实体的“行动/操作/动作”。</li>
+              <li>完成该最终功能的过程中需要实现其他中间功能（过程），则再去调用其它对象（或也可能是自己本身）来实现该中间功能。</li>
+              <li>整个系统的完成（功能的实现）看作是一个一个对象在发挥其各自的“能力”并在内部进行协调有序的调用过程。</li>
+              <li>例子：完成来传智“报名学习”这件事，可以这样来处理：
+                <ul>
+                        <li>学生对象：有姓名有照片，有所属班级，能“提出报名”，能“缴费”</li>
+                  <li>咨询老师对象：能接收照片并登记姓名，能分配班级。</li>
+                  <li>班级对象：有班号，有开班日期，有教室。</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>面向对象基本概念：
+        <ul>
+            <li>类与对象：
+              <ul>
+                  <li>类是描述一类事物的一个总称，是具有相同特征特性的该类事物的一个通用名字（称呼）；</li>
+                <li>比如人就是一个类（人类），狗也是一个类（狗类），它们又属于一个更大的类（哺乳类），桌子，手机，书都是一个类；</li>
+                <li>对象是一个明确的具体的“物体”，是某个类中的一个“实物”（相对来说，类就是一种抽象的泛称）。对象离不开类，或者说，对象一定隶属于某个类——有类才有对象，先有类再有对象。</li>
+                <li>比如“黄晓明”就是“人”这个类的一个具体对象，“阿黄”是“狗”这个类的一个具体对象。</li>
+                <li>一个类决定了一个对象所具有的所有特征特性信息，比如我是人类，则我有：姓名，性别，年龄，我还能吃饭，走路，说话。</li>
+                <li>一个对象的所有特征特性信息，都是由其所属的类决定的，但每个对象又很有可能有自己不同的特征特性信息，比如有个对象的名字叫吴六奇，性别男，会写程序，另一个对象可能叫章子怡，性别女，会演戏。</li>
+                <li>语法上，一个类内部可以具有自己的“变量”和“函数”，但此时在技术术语上就对应地称为“属性”和“方法”。一个类也可以有自己的常量。这些属性，方法和常量就都称为“类”的“成员”。</li>
+              </ul>
+            </li>
+          <li>类的定义：</li>
+          <li>类中属性property：</li>
+          <li>类中方法method：</li>
+          <li>对象的创建：就是由一个类“创建”出一个具体的“物体”——专业说法就是对象。创建对象的语法可以有：
+            <ul>
+              <li>new 类名();</li>
+              <li>new 变量名(); //该变量的内容是一个表示类名的字符串。</li>
+              <li>new 对象名（）;//创建该对象所属类的一个新对象</li>
+              <li>new self; //用于在类的方法内部创建一个该类对象。</li>
+              <li>类名::getNew();//定义类的一个静态方法用于获取该类的一个对象</li>
+            </ul>
+          </li>
+          <li>对象的使用：要么使用其属性，要么使用其方法。使用属性，就可以当作一个变量看待。使用方法，就可以当作一个函数看待。</li>
+          <li>对象的传值：</li>
+        </ul>
+      </li>
+      <li>类中成员member：
+        <ul>
+            <li>一个类中能且只能包含如下3种成员（代码）：变量（称为属性），函数（称为方法），常量（称为类常量）。</li>
+            <li>一般属性：
+              <ul>
+                <li>属性就是定义在类中的变量，需要使用public或var来修饰（定义），也可以使用protected或private来修饰（见后续知识）。</li>
+                <li>定义的时候可以不赋值，也可以赋（初）值，但只能是一个“直接值”（常量值）或常量，不能是变量值或计算值或函数调用返回值等。</li>
+                <li>属性的使用形式：对象名-&gt;属性名；</li>
+                <li>属性是可读可写的（可取值赋值）。</li>
+              </ul>
+            </li>
+          <li>一般方法：
+            <ul>
+                  <li>方法就是定义在类中的函数，但函数前可以使用public，protected, private修饰（见后续知识），也可以省略。</li>
+                  <li>但该方法的调用（使用）不能独立进行，而是需要通过对象来调用。</li>
+              <li>方法中$this关键字具有特定含义：表示调用该方法的对象。</li>
+                  <li>获取$this的所属类：get_class($this)</li>
+            </ul>
+          </li>
+          <li>静态属性：
+            <ul>
+              <li>一个仅仅隶属于（依附于）类的属性，其是通过类名直接来取用的。</li>
+              <li>定义形式：[访问修饰符] static $静态属性名 [ = 初值]；//访问修饰符省略则默认为public，初值也应该是直接值或常量</li>
+              <li>使用形式：类名::$静态属性名；//可取值可赋值；</li>
+            </ul>
+          </li>
+          <li>静态方法：
+            <ul>
+                  <li>一个仅仅隶属于（依附于）类的方法，其是通过类名直接调用的（不过新版php已经可以使用该类的对象名来调用了）</li>
+                  <li>定义形式：[访问修饰符] static function $静态方法名(...){ ...... }</li>
+                  <li>使用形式：类名::静态方法名(...)；其中类名也可以用该类的对象名，一个内容为该类名的字符串变量名，self等来代替。</li>
+                  <li>self关键字：用在方法中，表示该方法所在的类。</li>
+                  <li>static关键字：代替self关键字的位置，除了具有self作用外，还具有更灵活的作用，那就是所谓“后期静态绑定”。</li>
+                  <li>注意1：$this在静态方法中不能使用。</li>
+                  <li>注意2：静态方法中不应调用非静态方法。</li>
+            </ul>
+          </li>
+          <li>类常量：
+            <ul>
+              <li>一个仅仅隶属于（依附于）类的常量，其是通过类名直接来取用的（不过新版php已经可以使用该类的对象名来调用了）</li>
+              <li>定义形式：const 常量名 = 初值；//必须赋初值</li>
+              <li>使用形式：类名::常量名；其中类名也可以用该类的对象名，一个内容为该类名的字符串变量名，self等来代替。</li>
+            </ul>
+          </li>
+          <li>构造方法（函数）：
+            <ul>
+              <li>构造方法是一个类在进行实例化（new一个对象出来）的时候，会首先自动调用的方法。</li>
+              <li>构造方法适用于创建对象时（使用对象前）对该对象做一些初始化工作。</li>
+              <li>定义形式：[访问修饰符] function __construct(...){ ...... }；//访问修饰符通常总是需要public（或省略）。</li>
+              <li>调用形式：实际上，没有直接的调用形式，而是在new一个对象的时候就调用了：new C1(&quot;小花&quot;,18,&quot;女&quot;);</li>
+              <li>如果一个类中定义了构造方法，则实例化该类时就会调用该方法，且实例化时的参数需要跟构造方法的参数匹配。</li>
+              <li>如果一个类中没有定义构造方法，则会自动调用其父类的构造方法（如果有），则实例化时的参数需跟父类的构造方法的参数匹配。</li>
+              <li>也可以在当前类的构造方法中调用父类的构造方法：parent::__construct();</li>
+            </ul>
+          </li>
+          <li>析构方法（函数）：
+            <ul>
+              <li>析构方法是在一个对象被销毁的时候会自动调用（执行）的方法；对象销毁的几种情况：
+                <ul>
+                  <li>脚本程序运行结束，自动销毁；</li>
+                  <li>明确地unset()一个对象变量，则被销毁；</li>
+                  <li>改变对象变量的值，被销毁；</li>
+                </ul>
+              </li>
+              <li>析构方法适用于销毁对象时对对象中使用的一些资源进行清理（销毁）——不过实际上现代PHP已经内具了垃圾回收机制，一般无需清理。。</li>
+              <li>定义形式：function __destruct(){ ...... }；//注意：只能是public的，且不能有参数</li>
+              <li>调用形式：无需在代码中手工调用，而是在代码运行结束时自动被调用（执行）。</li>
+              <li>如果一个类中定义了析构方法，则销毁对象时就会调用该方法。</li>
+              <li>如果一个类中没有定义析构方法，则销毁对象时就会调用其父类的析构方法（如果有）</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>类的继承：
+        <ul>
+            <li>基本含义：类是用来描述现实世界中同一种事物的共有特性的抽象模型。但现实世界中，不同种类的事物之间有往往有一些上下级或大小范围的关系。比如，动物是一个“类”，具有某些特性。但脊椎动物也是一个类，也具有一些特性，且同时具有动物类的所有特性。哺乳动物还是一个类，具有一些特性，并同时具有脊椎动物的所有特性。如此等等，则面向对象编程中，我们定义的类也同样可以具有类似的关系特征，这就是类的继承。</li>
+            <li>基本语法：extends</li>
+            <li>基本概念：
+              <ul>
+                <li>继承：一个类从另一个已有的类获得其特性，称为继承。</li>
+                <li>派生：从一个已有的类产生一个新的类，称为派生。</li>
+                <li>父类/子类：已有类为父类，新建类为子类。</li>
+                <li>单继承：一个类只能从一个上级类继承其特性信息。PHP和大多数面向对象的语言都是单继承模式。C++是多继承。</li>
+                <li>扩展：在子类中再来定义自己的一些新的特有的特性信息（属性，方法和常量）。没有扩展，继承也就没有意义了。</li>
+              </ul>
+            </li>
+          <li>访问控制修饰符：
+            <ul>
+                  <li>public公共的：在所有位置都可访问（使用）。</li>
+              <li>protected受保护的：只能再该类内部和该类的子类或父类中访问（使用）。</li>
+              <li>private私有的：只能在该类内部访问（使用）。</li>
+            </ul>
+          </li>
+          <li>parent关键字：在类的内部用来表示（代表）该类的父类。可以用来访问父类的属性或方法或常量。</li>
+          <li>构造和析构方法中的调用上级同样方法的问题：
+            <ul>
+              <li>子类中没有定义构造方法时，会自动调用父类的构造方法。因此实例化子类时，需按照父类的构造方法的形式进行。</li>
+              <li>子类定义了自己的构造方法，则不会自动调用父类的构造方法，但可以手动调用：parent::__construct();</li>
+              <li>子类中没有定义析构方法时，会自动调用父类的析构方法。</li>
+              <li>子类定义了自己的析构方法，则不会自动调用父类的析构方法，但可以手动调用：parent::__destruct()</li>
+            </ul>
+          </li>
+          <li>重写override
+            <ul>
+                  <li>什么是重写？重写又叫“覆盖”，就是将从父类继承下来的属性或方法重新定义。只有保护的或公有的属性或方法能够被覆盖。</li>
+              <li>为什么要重写？因为父类的某个属性可能对于子类来说不够具体或详细，子类想要同样特性或功能的更准确或详细信息。</li>
+              <li>重写的基本要求：访问控制权限，方法的参数形式。</li>
+              <li>私有属性和私有方法的重写问题：私有属性和方法都不能覆盖，但其实子类可以定义跟父类私有的同名属性或方法。只是当作一个自身的新的属性或方法来看待而已。不过方法的参数必须一致。</li>
+              <li>构造方法的重写问题：构造方法不但可以像其他普通方法一样重写，而且，比普通方法更宽松：重写的时候参数可以不一致。</li>
+            </ul>
+          </li>
+          <li>最终类final class：</li>
+          <li>最终方法final method：</li>
+        </ul>
+      </li>
+      <li>设计模式：
+        <ul>
+            <li>工厂模式：一种专门用于“生产”其他各种类的对象的一个类</li>
+          <li>单例模式：一种只能从中实例化出来一个对象的类</li>
+        </ul>
+      </li>
+      <li>类的“扩大化”技术：
+        <ul>
+            <li>抽象类，抽象方法：
+              <ul>
+                <li>一个类可以使用关键字abstract声明为抽象类；抽象类是不能实例化的类，只用作其他类的父类。</li>
+                <li>一个方法可以使用关键字abstract声明为抽象方法；抽象方法只需要声明方法头，不需要大括号部分的方法体。</li>
+                <li>一个类中有抽象方法，则该类必须声明为抽象类。</li>
+                <li>子类继承自一个抽象类，则子类必须实现父类中的所有抽象方法，除非子类也继续作为抽象类。</li>
+                <li>子类实现抽象父类的方法时，访问控制修饰符的范围不能降低，且方法的参数也须一致。</li>
+              </ul>
+            </li>
+          <li>重载技术overloading：
+            <ul>
+                  <li>属性重载：__set(), __get(), __isset(), __unset()</li>
+              <li>方法重载：__call(), __callstatic();</li>
+            </ul>
+          </li>
+          <li>接口interface：
+            <ul>
+                  <li>什么是接口？</li>
+              <li>为什么需要接口？</li>
+              <li>接口的定义形式：</li>
+              <li>接口的实现：使用接口被称为接口的“实现”（implements)，其实就是类似“继承”</li>
+              <li>接口的多实现：</li>
+              <li>接口常量：</li>
+              <li>接口继承：</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>有关类或对象的其他相关技术：
+        <ul>
+            <li>类的自动加载：__autoload(), spl_autoload_register();</li>
+          <li>对象的复制（克隆）：</li>
+          <li>对象的遍历：</li>
+          <li>PHP内置标准类：</li>
+          <li>对象的类型转换：
+            将得到一个标准类stdClass的对象
+            <ul>
+              <li>对象转换为对象：没有变化；</li>
+              <li>数组转换为对象：数组的键名当作属性名，值为对应值；</li>
+              <li>null转换为对象：空对象；</li>
+              <li>其他标量数据转换为对象：属性名为固定的“scalar”，值为该变量的值</li>
+            </ul>
+          </li>
+          <li>类型约束：可以对函数（方法）的参数设定必须使用的类型。只能对对象，接口，数组进行约束。</li>
+          <li>与类有关的魔术常量：__CLASS__, __METHOD__</li>
+          <li>与类有关的其他魔术方法：
+            <ul>
+                  <li>已学过的魔术方法：__construct, __destruct, __set(), __get(), __isset(), __unset(), __call(), __callstatic()</li>
+              <li>__sleep()和__wakeup(): 序列化操作的时候，会先调用__sleep()方法，反序列化操作的时候会先调用__wakeup()方法。</li>
+              <li>__tostring():将对象当作字符串来使用的时候，会自动调用该方法，以此来作为对象转换为字符串的结果数据。</li>
+              <li>__invoke():将对象当作函数来使用的时候，会自动调用该方法。</li>
+            </ul>
+          </li>
+          <li>与类有关的系统函数：class_exists(), interface_exists(), get_class(),get_parent_class(), get_class_methods(), get_class_vars(),  get_declared_classes()</li>
+          <li>与对象有关的系统函数：is_object()，get_object_vars()</li>
+          <li>与类有关的运算符：new，instanceof</li>
+          <li>面向对象编程思想的3个特征：封装，继承，多态。</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li></li>
+</ul>
+</body>
+</html>
