@@ -1,0 +1,32 @@
+{
+  "name": "pingplusplus/pingpp-php",
+  "description": "Pingplusplus PHP Library",
+  "keywords": [
+    "pingpp",
+    "mobile payment processing",
+    "api"
+  ],
+  "homepage": "https://pingxx.com/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Pingplusplus and contributors",
+      "homepage": "https://github.com/PingPlusPlus/pingpp-php/contributors"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": { "Pingpp\\" : "lib/" }
+  },
+  "extra": {
+    "branch-alias": {
+    }
+  }
+}
